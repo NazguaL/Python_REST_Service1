@@ -17,12 +17,14 @@ def get_ip_address():
     s.connect(("8.8.8.8", 80))
     return s.getsockname()[0]
 
+
 ip = get_ip_address()
 print("http://" + ip + ":" + str(port))
 
 
 class Root(Resource):
     def get(self):
+        print(str(request.remote_addr))
         resourse = "http://" + ip + ":" + str(port) + "/calculator"
         return Response('{"data": "This is simple REST Calculator service working on %s"}' % resourse, status=200,
                         mimetype='application/json')
@@ -46,6 +48,7 @@ class LogsId(Resource):
 
 class Calculator(Resource):
     def get(self):
+
         instruction = "To use this Calculator service call POST method on this resource address using JSON with " \
                       "following keys Operand#1, Operand#2 and Operator in Request body " \
                       "and Content-Type application/json header"
